@@ -13,7 +13,7 @@ class WordPresenter(
     private lateinit var timer: CountDownTimer
 
     companion object {
-                const val GAME_TIME = 5 * 60 * 1000L
+        const val GAME_TIME = 5 * 60 * 1000L
     }
 
     fun startGame() {
@@ -52,11 +52,11 @@ class WordPresenter(
                 val seconds = millisUntilFinished / 1000
 
                 val minutes = seconds / 60
-                var secondsRemaining = seconds % 60
+                val secondsRemaining = seconds % 60
 
-                var secondsText =
+                val secondsText =
                     if (secondsRemaining < 10) "0$secondsRemaining" else "$secondsRemaining"
-                var minutesText = if (minutes < 10) "0$minutes" else "$minutes"
+                val minutesText = if (minutes < 10) "0$minutes" else "$minutes"
 
                 ui.updateTimer("$minutesText:$secondsText")
             }

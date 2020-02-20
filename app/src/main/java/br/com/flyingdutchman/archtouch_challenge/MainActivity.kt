@@ -1,6 +1,8 @@
 package br.com.flyingdutchman.archtouch_challenge
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -38,9 +40,11 @@ class MainActivity :
 
         fab.setOnClickListener {
             wordPresenter.startGame()
-            game_result.visibility = View.GONE
-            fab.visibility = View.GONE
-            word_edit_text.visibility = View.VISIBLE
+
+            game_result.gone()
+            fab.gone()
+            word_edit_text.show()
+            word_recycler.show()
         }
 
         word_edit_text.addTextChangedListener(object : TextWatcher {
@@ -62,31 +66,39 @@ class MainActivity :
     override fun updateGuessesCorrect(word: String) {
         adapter.addWord(word)
         word_edit_text.setText("")
+        hideKeyboard()
     }
 
     override fun showWinningState() {
-        adapter.clear()
-        word_edit_text.setText("")
-        wordPresenter.reset()
-        game_result.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark))
-        game_result.text = "YOU WIN!"
+        Handler(Looper.getMainLooper()).postDelayed({
+            adapter.clear()
+            word_edit_text.setText("")
+            wordPresenter.reset()
+            game_result.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark))
+            game_result.text = "YOU WIN!"
 
 
-        fab.visibility = View.VISIBLE
-        word_edit_text.visibility = View.GONE
-        game_result.visibility = View.VISIBLE
+
+            fab.show()
+            word_edit_text.gone()
+            word_recycler.hide()
+            game_result.show()
+        }, 700)
     }
 
     override fun showLoseState() {
-        adapter.clear()
-        word_edit_text.setText("")
-        wordPresenter.reset()
-        game_result.setBackgroundColor(resources.getColor(android.R.color.holo_red_dark))
-        game_result.text = "YOU LOSE!"
+        Handler(Looper.getMainLooper()).postDelayed({
 
-        fab.visibility = View.VISIBLE
-        word_edit_text.visibility = View.GONE
-        game_result.visibility = View.VISIBLE
+            adapter.clear()
+            word_edit_text.setText("")
+            wordPresenter.reset()
+            game_result.setBackgroundColor(resources.getColor(android.R.color.holo_red_dark))
+            game_result.text = "YOU LOSE!"
+
+            fab.show()
+            word_edit_text.gone()
+            game_result.show()
+        }, 700)
 
     }
 
